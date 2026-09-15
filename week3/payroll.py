@@ -1,0 +1,17 @@
+name = input("Enter the employee's name: ")
+hrs_per_week = float(input("Enter number of hourse worked in a week: "))
+hrly_pay_rate = float(input("Enter hourly pay rate: "))
+federal_withholding_rate = float(input("Enter federal tax withholding rate: "))
+state_withholding_rate = float(input("Enter state tax withholding rate: "))
+gross_pay = hrly_pay_rate * hrs_per_week
+net_pay = gross_pay - (federal_withholding_rate * gross_pay + state_withholding_rate * gross_pay)
+
+print(f"Employee name: {name}")
+print(f"Hours worked: {hrs_per_week:.1f}")
+print(f"Pay rate: ${hrly_pay_rate:.2f}")
+print(f"Gross pay: ${gross_pay}")
+print(f"Deductions:")
+print(f"\tFederal withholding ({(federal_withholding_rate*100):.2f}%): ${(gross_pay * federal_withholding_rate):.2f}")
+print(f"\tState withholding ({(state_withholding_rate*100):.2f}%): ${(gross_pay * state_withholding_rate):.2f}")
+print(f"\tTotal deductions: ${(gross_pay * federal_withholding_rate + gross_pay * state_withholding_rate):.2f}")
+print(f"Net pay: {net_pay:.2f}")
