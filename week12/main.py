@@ -29,4 +29,57 @@ class Student:
         print(f'{self.name}\'s courses and grades:')
         for course, grade in self.courses.items():
             print(f'Course: {course}; Grade: {grade}')
-        
+        return True
+
+class CourseManagementSystem():
+    def __init__(self):
+        self.students = []
+
+    '''
+    Display a student's average grade.
+    '''
+    def add_student(self, id, name, email):
+        new_student = Student(id, name, email)
+        for student in self.students:
+            if student.id == id:
+                return False
+        self.students.append(new_student)
+        return True
+
+    def find_student_from_id(self, id):
+        for student in self.students:
+            if student.id == id:
+                return student
+        return False
+
+    def remove_student(self, id):
+        for student in self.students:
+            if student.id == id:
+                self.students.remove(student)
+                return True
+        return False
+
+    def display_students(self):
+        for student in self.students:
+            print(student.name)
+        return True
+
+    def enroll_student(self, id, course, grade):
+        for student in self.students:
+            if student.id == id:
+                student.add_course(course, grade)
+                return True
+        return False
+
+    def update_grade(self, id, course, grade):
+        for student in self.students:
+            if student.id == id:
+                student.change_grade(course, grade)
+                return True
+        return False
+
+    def display_GPA(self, id):
+        for student in self.students:
+            if student.id == id:
+                return student.calculate_GPA()
+        return False
