@@ -35,9 +35,6 @@ class CourseManagementSystem():
     def __init__(self):
         self.students = []
 
-    '''
-    Display a student's average grade.
-    '''
     def add_student(self, id, name, email):
         new_student = Student(id, name, email)
         for student in self.students:
