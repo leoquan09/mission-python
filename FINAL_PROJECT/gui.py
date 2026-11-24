@@ -1,35 +1,37 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
+'''
+Class to make a single student with helper functions attached to it like getters and setters
+'''
 class Student:
-    # Student constructor
+    '''
+    Class to make a single student with helper functions attached to it like getters and setters
+    '''
     def __init__(self, student_id, name, email):
         self.id = student_id
         self.name = name
         self.email = email
         self.courses = {}
 
-    # course adding
     def add_course(self, course, grade):
         if course in self.courses:
             return False
         self.courses[course] = grade
         return True
 
-    # change grade function
     def change_grade(self, course, grade):
         if course in self.courses:
             self.courses[course] = grade
             return True
         return False
 
-    # calculate average function
     def calculate_average(self):
         if len(self.courses) == 0:
             return 0.0
         return sum(self.courses.values()) / len(self.courses)
 
-    # Gets info on student
     def get_info(self):
         info = (
             f"Student Name: {self.name}\n"
@@ -46,13 +48,14 @@ class Student:
 
 
 class CourseManagementSystem:
-
-    #
+    '''
+    Course management class. It has all the implentations for the student class
+    '''
     def __init__(self):
         self.students = []
 
     def add_student(self, student_id, name, email):
-        if self.find_student_from_id(student_id) is not None:
+        if self.find_student_from_id(student_id):
             return False
         new_student = Student(student_id, name, email)
         self.students.append(new_student)
@@ -66,7 +69,7 @@ class CourseManagementSystem:
 
     def remove_student(self, student_id):
         student = self.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             self.students.remove(student)
             return True
         return False
@@ -76,35 +79,38 @@ class CourseManagementSystem:
 
     def enroll_student(self, student_id, course, grade):
         student = self.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             return student.add_course(course, grade)
         return False
 
     def update_grade(self, student_id, course, grade):
         student = self.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             return student.change_grade(course, grade)
         return False
 
     def get_student_average(self, student_id):
         student = self.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             return student.calculate_average()
         return None
 
 
-# =========================================== main code =========================================== #
 class StudentManagementGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Student Course Management System")
-        self.root.geometry("600x520")
+    '''
+    Main ui code below in this class
+    '''
+    def __init__(self, window):
+        '''
+            The constructor... basically just all the ui because the the callbacks are below this
+        '''
+        self.window = window
+        self.window.title("Student Course Management System")
+        self.window.geometry("600x520")
         
-        # Initialize your existing management class
         self.system = CourseManagementSystem()
 
-        # --- Input Fields Frame ---
-        input_frame = tk.LabelFrame(root, text="Student & Course Details", padx=10, pady=10)
+        input_frame = tk.LabelFrame(window, text="Student & Course Details", padx=10, pady=10)
         input_frame.pack(fill="x", padx=15, pady=10)
 
         tk.Label(input_frame, text="Student ID:").grid(row=0, column=0, sticky="w", pady=3)
@@ -127,8 +133,7 @@ class StudentManagementGUI:
         self.grade_entry = tk.Entry(input_frame, width=35)
         self.grade_entry.grid(row=4, column=1, pady=3, padx=5)
 
-        # --- Menu Buttons Frame (Options 1 - 8) ---
-        btn_frame = tk.Frame(root)
+        btn_frame = tk.Frame(window)
         btn_frame.pack(pady=5)
 
         tk.Button(btn_frame, text="1. Add Student", width=22, command=self.add_student).grid(row=0, column=0, padx=5, pady=3)
@@ -140,21 +145,24 @@ class StudentManagementGUI:
         tk.Button(btn_frame, text="7. Display Average", width=22, command=self.display_average).grid(row=3, column=0, padx=5, pady=3)
         tk.Button(btn_frame, text="8. Exit", width=22, command=self.exit_app).grid(row=3, column=1, padx=5, pady=3)
 
-        # --- Output Display Box (Replaces console print statements) ---
-        output_frame = tk.LabelFrame(root, text="System Output", padx=10, pady=10)
+        output_frame = tk.LabelFrame(window, text="System Output", padx=10, pady=10)
         output_frame.pack(fill="both", expand=True, padx=15, pady=10)
 
         self.output_text = tk.Text(output_frame, height=10, state="disabled")
         self.output_text.pack(fill="both", expand=True)
 
-    # Helper to display output cleanly in the text box
+    '''
+    Below are all the callback functions used in the buttons and helper(s)
+    '''
+
+    # Display end output
     def show_output(self, message):
         self.output_text.config(state="normal")
         self.output_text.delete("1.0", tk.END)
         self.output_text.insert(tk.END, message)
         self.output_text.config(state="disabled")
 
-    # Helper to clear entry boxes after an action
+    # Clears all entry elements
     def clear_inputs(self):
         self.id_entry.delete(0, tk.END)
         self.name_entry.delete(0, tk.END)
@@ -162,7 +170,7 @@ class StudentManagementGUI:
         self.course_entry.delete(0, tk.END)
         self.grade_entry.delete(0, tk.END)
 
-    # Replaces get_valid_grade()
+    # gets input and checks
     def get_valid_grade(self):
         raw_grade = self.grade_entry.get().strip()
         try:
@@ -175,7 +183,6 @@ class StudentManagementGUI:
             messagebox.showerror("Invalid Input", "Please enter a numeric grade.")
             return None
 
-    # Option 1: Add a New Student
     def add_student(self):
         student_id = self.id_entry.get().strip()
         name = self.name_entry.get().strip()
@@ -190,16 +197,14 @@ class StudentManagementGUI:
         else:
             messagebox.showerror("Error", f"A student with ID '{student_id}' already exists.")
 
-    # Option 2: Search for a Student
     def search_student(self):
         student_id = self.id_entry.get().strip()
         student = self.system.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             self.show_output(student.get_info())
         else:
             messagebox.showerror("Not Found", f"Student with ID '{student_id}' not found.")
 
-    # Option 3: Remove a Student
     def remove_student(self):
         student_id = self.id_entry.get().strip()
         if self.system.remove_student(student_id):
@@ -209,7 +214,6 @@ class StudentManagementGUI:
         else:
             messagebox.showerror("Not Found", f"Student with ID '{student_id}' not found.")
 
-    # Option 4: Display All Students
     def display_all(self):
         students = self.system.get_all_students()
         if not students:
@@ -220,11 +224,10 @@ class StudentManagementGUI:
                 lines.append(f"ID: {student.id} | Name: {student.name} | Email: {student.email}")
             self.show_output("\n".join(lines))
 
-    # Option 5: Enroll a Student in a Course
     def enroll_student(self):
         student_id = self.id_entry.get().strip()
         student = self.system.find_student_from_id(student_id)
-        if student is None:
+        if not student:
             messagebox.showerror("Not Found", f"Student with ID '{student_id}' not found.")
             return
 
@@ -234,7 +237,7 @@ class StudentManagementGUI:
             return
 
         grade = self.get_valid_grade()
-        if grade is None:
+        if not grade and grade != 0.0:
             return
 
         if self.system.enroll_student(student_id, course, grade):
@@ -244,11 +247,10 @@ class StudentManagementGUI:
         else:
             messagebox.showerror("Error", f"Student is already enrolled in {course}. Use Option 6 to update the grade.")
 
-    # Option 6: Update a Student's Grade
     def update_grade(self):
         student_id = self.id_entry.get().strip()
         student = self.system.find_student_from_id(student_id)
-        if student is None:
+        if not student:
             messagebox.showerror("Not Found", f"Student with ID '{student_id}' not found.")
             return
 
@@ -258,7 +260,7 @@ class StudentManagementGUI:
             return
 
         grade = self.get_valid_grade()
-        if grade is None:
+        if not grade and grade != 0.0:
             return
 
         self.system.update_grade(student_id, course, grade)
@@ -266,18 +268,20 @@ class StudentManagementGUI:
         self.show_output(student.get_info())
         self.clear_inputs()
 
-    # Option 7: Display a Student's Average Grade
     def display_average(self):
         student_id = self.id_entry.get().strip()
         student = self.system.find_student_from_id(student_id)
-        if student is not None:
+        if student:
             avg = self.system.get_student_average(student_id)
             self.show_output(f"Student Name: {student.name}\nAverage Grade: {avg:.1f}")
         else:
-            messagebox.showerror("Not Found", f"Student with ID '{student_id}' not found.")
+            messagebox.showerror("Not Found", f"Student with ID '{student_id}' is not in the system.")
 
-    # Option 8: Exit
     def exit_app(self):
-        messagebox.showinfo("Goodbye", "Thank you for using the Student Course Management System.")
-        self.root.destroy()
+        messagebox.showinfo("Bye", "Thanks for using the Student Course Management System.")
+        self.window.destroy()
 
+if __name__ == "__main__":
+  window = tk.Tk()
+  app = StudentManagementGUI(window)
+  window.mainloop()
