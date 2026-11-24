@@ -1,3 +1,5 @@
+import tkinter as tk
+
 class Student:
     # Student constructor
     def __init__(self, student_id, name, email):
