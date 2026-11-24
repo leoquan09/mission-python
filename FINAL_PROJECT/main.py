@@ -9,7 +9,7 @@ new students and delete students and search through all the students. The studen
 in a list so that you can just use a for loop to find each instance of the student that you 
 are looking for. There is also just a main function and some helper functions outside it. 
 All the main function does is run all the print statements and get the users inputs. Made it
-kind of concise so that it is easier to shift over to using tkinter next week.
+kind of concise so that it is easier to shift over to using tkinter next week :P
 '''
 class Student:
     '''
