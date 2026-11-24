@@ -1,10 +1,21 @@
 import tkinter as tk
 from tkinter import messagebox
 
+'''
+Course management program (but with a gui)
 
+All the classes are pretty much the same besides the for the addition of the newest
+class: student management gui!! All it does is create all the buttons and callback
+functions so that you can just create a new instance of the gui class in the if main
+thing while passing the window instance that you create so that the class can access
+the window instance that you created in the main outside scope rather than the local
+scope of the class (idek if a class can make a window in its scope though). The class
+has some more documentation on it but it's pretty self explanatory. It makes buttons,
+entries, message boxes (alerts), labels, and frames and then adds a bunch of callbacks
+to the buttons. Each component is stored in a frame to make it easier to display by
+just packing each frame sequentially and everything just loads top down perfectly :)
 '''
-Class to make a single student with helper functions attached to it like getters and setters
-'''
+
 class Student:
     '''
     Class to make a single student with helper functions attached to it like getters and setters

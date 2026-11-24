@@ -1,3 +1,16 @@
+'''
+Course management program
+
+Each class has info beneath it but basically the student class makes it easier to store data
+with getters setters and calculate functions and uses a dictionary to make it easy to store 
+course and grade with a key and value system. The course management system class stores all
+the instances of the students and has the getters and setters and other helper stuff to add
+new students and delete students and search through all the students. The students are stored
+in a list so that you can just use a for loop to find each instance of the student that you 
+are looking for. There is also just a main function and some helper functions outside it. 
+All the main function does is run all the print statements and get the users inputs. Made it
+kind of concise so that it is easier to shift over to using tkinter next week.
+'''
 class Student:
     '''
     Student class with info for each student and helper functions like getters and setters
