@@ -1,32 +1,30 @@
 class Student:
-    # Student constructor
+    '''
+    Student class with info for each student and helper functions like getters and setters
+    '''
     def __init__(self, student_id, name, email):
         self.id = student_id
         self.name = name
         self.email = email
         self.courses = {}
 
-    # course adding
     def add_course(self, course, grade):
         if course in self.courses:
             return False
         self.courses[course] = grade
         return True
 
-    # change grade function
     def change_grade(self, course, grade):
         if course in self.courses:
             self.courses[course] = grade
             return True
         return False
 
-    # calculate average function
     def calculate_average(self):
         if len(self.courses) == 0:
             return 0.0
         return sum(self.courses.values()) / len(self.courses)
 
-    # Gets info on student
     def get_info(self):
         info = (
             f"Student Name: {self.name}\n"
@@ -43,8 +41,9 @@ class Student:
 
 
 class CourseManagementSystem:
-
-    #
+    '''
+    Data class with all the student implementation of each student and such
+    '''
     def __init__(self):
         self.students = []
 
@@ -90,9 +89,10 @@ class CourseManagementSystem:
         return None
 
 
-# =========================================== main code =========================================== #
 
-# Pring menu function so I don't have to copy and paste
+'''
+print menu helper class
+'''
 def print_menu():
     print("\nStudent Course Management System\n")
     print("1. Add a New Student")
@@ -105,7 +105,9 @@ def print_menu():
     print("8. Exit\n")
     return input("Enter your choice (1-8): ").strip()
 
-# Checks if a grade is in the correct possible range
+'''
+check grade helper class (if its a valid grade)
+'''
 def get_valid_grade():
     while True:
         raw_grade = input("Enter Grade (0-100): ").strip()
@@ -117,17 +119,20 @@ def get_valid_grade():
         except ValueError:
             print("Invalid input. Please enter a numeric grade.")
 
-# Main function/loop
 def main():
-    # Initialize course management class
+    '''
+    Main function to print everything
+    '''
     system = CourseManagementSystem()
 
-    # Main loop
+
+    '''
+    Used a while True loop so its easy to break out of (just put the break keyword)
+    '''
     while True:
         choice = print_menu()
         print()
 
-        # Number one choice
         if choice == "1":
             student_id = input("Enter Student ID: ").strip()
             name = input("Enter Student Name: ").strip()
@@ -140,7 +145,6 @@ def main():
             else:
                 print(f"Error: A student with ID '{student_id}' already exists.")
 
-        # Number 2 choice
         elif choice == "2":
             student_id = input("Enter Student ID: ").strip()
             student = system.find_student_from_id(student_id)
@@ -149,7 +153,6 @@ def main():
             else:
                 print(f"Student with ID '{student_id}' not found.")
 
-        # Number three choice
         elif choice == "3":
             student_id = input("Enter Student ID: ").strip()
             if system.remove_student(student_id):
@@ -157,7 +160,6 @@ def main():
             else:
                 print(f"Student with ID '{student_id}' not found.")
 
-        # Number four choice
         elif choice == "4":
             students = system.get_all_students()
             if not students:
@@ -167,7 +169,6 @@ def main():
                 for student in students:
                     print(f"ID: {student.id} | Name: {student.name} | Email: {student.email}")
 
-        # Number five choice
         elif choice == "5":
             student_id = input("Enter Student ID: ").strip()
             student = system.find_student_from_id(student_id)
@@ -181,7 +182,6 @@ def main():
                 else:
                     print(f"Student is already enrolled in {course}. Use Option 6 to update the grade.")
 
-        # Number six choice
         elif choice == "6":
             student_id = input("Enter Student ID: ").strip()
             student = system.find_student_from_id(student_id)
@@ -196,7 +196,6 @@ def main():
                     system.update_grade(student_id, course, grade)
                     print("Grade updated successfully!")
 
-        # Number seven choice
         elif choice == "7":
             student_id = input("Enter Student ID: ").strip()
             student = system.find_student_from_id(student_id)
@@ -207,11 +206,9 @@ def main():
             else:
                 print(f"Student with ID '{student_id}' not found.")
 
-        # Number eight choice
         elif choice == "8":
             print("Thank you for using the Student Course Management System.")
             break
-
         else:
             print("Not allowed choice. Enter a number between 1 and 8.")
 
